@@ -6,20 +6,41 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/styles.css">
-    <script src="js/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <title>aFrame Starter Template - DAT515</title>
 </head>
 
 <body>
     <a-scene>
-        <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
-        <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-        <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-        <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
-        <a-sky color="#ECECEC"></a-sky>
+        <a-assets>
+            <img id="tile" src="assets/img/textures/tile/tileTexture.jpg"/>
+            <img id="tileNRM" src="assets/img/textures/tile/tileTexture_NRM.jpg"/>
+
+            <a-asset-item id="cubeObj" src="assets/models/cube/cube.obj"></a-asset-item>
+            <a-asset-item id="cubeMtl" src="assets/models/cube/cube.mtl"></a-asset-item>
+
+            <a-asset-item id="treeObj" src="assets/models/lowPolyTree/lowPolyTree.obj"></a-asset-item>
+            <a-asset-item id="treeMtl" src="assets/models/lowPolyTree/lowPolyTree.mtl"></a-asset-item>
+        </a-assets>
+        <!--Lights-->
+        <a-entity light="type:ambient; intensity:0.2;"></a-entity>
+        <a-entity light="type:point; intensity:0.8; color:#CC5500; castShadow:true;"position="2 1 -4"></a-entity> 
+       
+        <a-entity obj-model="obj: #cubeObj; mtl: #cubeMtl" position="15 1 1" shadow="cast:true;"></a-entity> 
+        <a-entity obj-model="obj: #treeObj; mtl: #treeMtl" position="0 2 -5" sound="src: url(assets/sounds/bells.wav); autoplay: true; loop:true;" shadow="cast:true;"></a-entity>
+        <a-entity obj-model="obj: #treeObj; mtl: #treeMtl" position="3 2 -5"></a-entity>
+        <a-entity obj-model="obj: #treeObj; mtl: #treeMtl" position="6 2 -5"></a-entity>
+        <a-entity obj-model="obj: #treeObj; mtl: #treeMtl" position="9 2 -5"></a-entity>
+        <a-entity obj-model="obj: #treeObj; mtl: #treeMtl" position="0 2 -2"></a-entity>
+        <a-entity obj-model="obj: #treeObj; mtl: #treeMtl" position="3 2 -2"></a-entity>
+        <a-entity obj-model="obj: #treeObj; mtl: #treeMtl" position="6 2 -2"></a-entity>
+        <a-entity obj-model="obj: #treeObj; mtl: #treeMtl" position="9 2 -2"sound="src: url(assets/sounds/bells.wav); autoplay: true; loop:true;"shadow="cast:true;"></a-entity>
+        
+        <a-plane  shadow="receive:true;" shader: flat; src="#tile" repeat="30 30" normal-map="#tileNRM" normal-map-repeat="50 50" position="0 0 0" rotation="-90 0 0" width="50" height="50" color="#fff"></a-plane>
+        <a-sky color="#222"></a-sky>
       </a-scene>
     
-    <script src="js/script.js"></script>
+    <script src="js/script.js"></script> 
 </body>
 
 </html>
