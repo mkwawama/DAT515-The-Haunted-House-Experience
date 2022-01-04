@@ -7,40 +7,356 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <title>aFrame Starter Template - DAT515</title>
+    <script src="https://unpkg.com/aframe-environment-component@1.2.0/dist/aframe-environment-component.min.js"></script>
+   
+    <!--script src="http://cdn.rawgit.com/donmccurdy/aframe-extras/v3.13.1/dist/aframe-extras.min.js"></script> -->
+ 
+
+    <!--Include global variables-->
+	<script>
+		
+		// Variables for positioning the Front Door 
+		var frontdoor_opened_position = new Object({x: 0.0462, y: -6.815, z: 24.8});
+		var frontdoor_closed_position = new Object({x: 0.0462, y: 6.00699, z:24.8});
+        var isfrontdoorOpened = false;
+		var isfrontdoorClosed = true;
+
+        //Variables for positioning the BedroomDoor
+        var bedroomdoor_opened_position = new Object({x: 19.9, y: -6.604, z: -1.9607});
+        var bedroomdoor_closed_position = new Object({x: 19.9, y: 5.954, z:-1.9607});
+        var isbedroomdoorOpened = false;
+		var isbedroomdoorClosed = true;
+
+        //Variables for positioning the BathroomDoor
+        var bathroomdoor_opened_position = new Object({x: -0.164, y: -6.668, z: -19.500});
+        var bathroomdoor_closed_position = new Object({x: -0.164, y: 5.966, z:-19.500});
+        var isbathroomdoorOpened = false;
+		var isbathroomdoorClosed = true;
+
+       // Sound Function
+        AFRAME.registerComponent('play',{
+            init:function() {
+                var myHaunted=document.querySelector("#Haunted");
+                this.el.addEventListener('click',function () {
+                    myHaunted.components.sound.playSound();
+                });
+            }
+        });
+        AFRAME.registerComponent('stop',{
+            init:function() {
+                var myHaunted=document.querySelector("#Haunted");wl
+                this.el.addEventListener('click',function () {
+                    console.log("I have stopped");
+                    myHaunted.components.sound.stopSound();
+                });
+            }
+        });
+        AFRAME.registerComponent('reload',{
+            init:function(){
+                var sceneElement = document.querySelector("#Zombieface");
+                this.el.addEventListener('click',function () {
+                    console.log("I have reloaded");
+                    window.location.reload();
+                });
+            
+                }
+        });
+        
+    
+        
+
+
+	</script>
+
+    
+    <title> DAT515 Project- DAT515</title>
 </head>
 
 <body>
-    <a-scene>
+    <a-scene physics="gravity: -10; debug: false">
         <a-assets>
             <img id="tile" src="assets/img/textures/tile/tileTexture.jpg"/>
             <img id="tileNRM" src="assets/img/textures/tile/tileTexture_NRM.jpg"/>
-
-            <a-asset-item id="cubeObj" src="assets/models/cube/cube.obj"></a-asset-item>
-            <a-asset-item id="cubeMtl" src="assets/models/cube/cube.mtl"></a-asset-item>
-
+            <img id="FloorMtl" src="assets/img/textures/tile/TexturesCom_WoodFine0077_4_M.jpg"/>
+            <img id="FloorMtl_NRM" src="assets/img/textures/tile/TexturesCom_WoodFine0077_4_M NRM.jpg"/>
+            <img id="WallMtl" src="assets/img/textures/tile/TexturesCom_BrickSmallBrown0456_2_M.jpg"/>
+            <img id="WallMtl_NRM" src="assets/img/textures/tile/TexturesCom_BrickSmallBrown0456_2_M_NRM.jpg"/>
+            <img id="CeilingMtl" src="assets/img/textures/tile/TexturesCom_WoodFine0077_4_M.jpg"/>
+            <img id="CeilingMtl_NRM" src="assets/img/textures/tile/TexturesCom_WoodFine0077_4_M NRM.jpg"/>
+            <img id="DoorMtl" src="assets/img/textures/tile/TexturesCom_OldWoodenDoors_M.png"/>
+            <img id="DoorMtl_NRM" src="assets/img/textures/tile/TexturesCom_OldWoodenDoors_M_NRM.png"/>
+            <img id="DoorMtl1" src="assets/img/textures/tile/TexturesCom_DoorsWoodPanelled0242_M.jpg"/>
+            <img id="DoorMtl2" src="assets/img/textures/tile/TexturesCom_Wood_TavernDoor_1K_albedo.jpg"/>
+            <img id="DoorMtl3" src="assets/img/textures/tile/InteriorDoor_Diffuce.jpg"/>
+            <img id="DoorMtl4" src="assets/img/textures/tile/TexturesCom_WoodenDoor_2.15x2.15_512_albedo.png"/>
+            <img id="WindowMtl" src="assets/img/textures/tile/TexturesCom_Various_GlassBlocks_1K_albedo.jpg"/>
+            <img id="HauntedMtl" src="assets/img/textures/tile/TexturesCom_WindowsBroken0027_1_M.jpg"/>
+            
+            
+            <audio id="DoorCreek" src="assets/sounds/DoorCreek.wav"></audio>
+            <audio id="HauntedHouseMusic" src="assets/sounds/HauntedHouse.mp3"></audio>
+            <audio id="ZombieSound" src="assets/sounds/132294-Zombie-Growl-Single-Fienup-004.wav"></audio>
+        
+        
             <a-asset-item id="treeObj" src="assets/models/lowPolyTree/lowPolyTree.obj"></a-asset-item>
             <a-asset-item id="treeMtl" src="assets/models/lowPolyTree/lowPolyTree.mtl"></a-asset-item>
+
+          
+
+            <a-asset-item id="MonaLisa" src="assets/models/MonaLisa/scene.gltf"></a-asset-item>
+            <a-asset-item id="Couch" src="assets/models/Couch/scene.gltf"></a-asset-item>
+            <a-asset-item id="TVStand" src="assets/models/TVStand/scene.gltf"></a-asset-item>
+            <a-asset-item id="TV" src="assets/models/TV/scene.gltf"></a-asset-item>
+            <a-asset-item id="Rug" src="assets/models/Rug/scene.gltf"></a-asset-item>
+            <a-asset-item id="DiningTable" src="assets/models/DiningTable/scene.gltf"></a-asset-item>
+            <a-asset-item id="Chandelier" src="assets/models/Chandelier/scene.gltf"></a-asset-item>
+            <a-asset-item id="FirePlace" src="assets/models/FirePlace/scene.gltf"></a-asset-item>
+            <a-asset-item id="Bed" src="assets/models/Bed/scene.gltf"></a-asset-item>
+            <a-asset-item id="Wardrobe" src="assets/models/Wardrobe/scene.gltf"></a-asset-item>
+            <a-asset-itme id="Radio" src="assets/models/Radio/scene.gltf"></a-asset-itme>
+            <a-asset-item id="BathTub" src="assets/models/BathTub/scene.gltf"></a-asset-item>
+            <a-asset-item id="Sink" src="assets/models/Sink/scene.gltf"></a-asset-item>
+            <a-asset-item id="Toilet" src="assets/models/Toilet/scene.gltf"></a-asset-item>
+            <a-asset-item id="LightBulb" src="assets/models/LightBulb/scene.gltf"></a-asset-item>
+            <a-asset-itme id="LightSwitch" src="assets/models/LightSwitch/scene.gltf"></a-asset-itme>
+            <a-asset-item id="Zombie" src="assets/models/Zombie/scene.gltf"></a-asset-item>
+            <a-asset-item id="RoofNew" src="assets/models/RoofNew/scene.gltf"></a-asset-item>
+            
+
+
+           
+
         </a-assets>
-        <!--Lights-->
-        <a-entity light="type:ambient; intensity:0.2;"></a-entity>
-        <a-entity light="type:point; intensity:0.8; color:#CC5500; castShadow:true;"position="2 1 -4"></a-entity> 
-       
-        <a-entity obj-model="obj: #cubeObj; mtl: #cubeMtl" position="15 1 1" shadow="cast:true;"></a-entity> 
-        <a-entity obj-model="obj: #treeObj; mtl: #treeMtl" position="0 2 -5" sound="src: url(assets/sounds/bells.wav); autoplay: true; loop:true;" shadow="cast:true;"></a-entity>
-        <a-entity obj-model="obj: #treeObj; mtl: #treeMtl" position="3 2 -5"></a-entity>
-        <a-entity obj-model="obj: #treeObj; mtl: #treeMtl" position="6 2 -5"></a-entity>
-        <a-entity obj-model="obj: #treeObj; mtl: #treeMtl" position="9 2 -5"></a-entity>
-        <a-entity obj-model="obj: #treeObj; mtl: #treeMtl" position="0 2 -2"></a-entity>
-        <a-entity obj-model="obj: #treeObj; mtl: #treeMtl" position="3 2 -2"></a-entity>
-        <a-entity obj-model="obj: #treeObj; mtl: #treeMtl" position="6 2 -2"></a-entity>
-        <a-entity obj-model="obj: #treeObj; mtl: #treeMtl" position="9 2 -2"sound="src: url(assets/sounds/bells.wav); autoplay: true; loop:true;"shadow="cast:true;"></a-entity>
+
         
-        <a-plane  shadow="receive:true;" shader: flat; src="#tile" repeat="30 30" normal-map="#tileNRM" normal-map-repeat="50 50" position="0 0 0" rotation="-90 0 0" width="50" height="50" color="#fff"></a-plane>
-        <a-sky color="#222"></a-sky>
-      </a-scene>
+
+        <!--Environment-->  
+        <a-entity environment="preset: forest; groundTexture: None; skyColor:  #010713;  lightPosition:  [object Object]; lightPosition:  [object Object];  skyType:  gradient;  horizonColor:  #010713; dressingColor:  #1c1c1c; "></a-entity>
+        <!--skyColor: #000442;-->
+
+        
+       <!--Text objects that are used for Instructions
+       <a-text id="Instruction1" side="double" color="black" position="-1.090 2.86123 5.48081" scale="" rotation="" value="Click the door to open." font="exo2bold" text=""></a-text>-->
+       <a-text id="Instruction2" side="double" color="black" position="0.5412 2.11444 0.07987" scale="" rotation="" value="Click the door to open." font="exo2bold" text=""></a-text>
+       <a-text id="Instruction3" side="double" color="black" position="0.42169 2.34689 -0.782" scale="0.8 0.8 0.8" rotation="0 90 0" value="Click the door to open." font="exo2bold" text=""></a-text>
+       <a-text id="Instruction4" side="double" color="black" position="0.271 2.47465 -4.79783" scale="0.8 0.8 0.8" rotation="" value="Click the radio to stop music playing." font="exo2bold" text=""></a-text>
+       <a-text id="Instruction5" side="double" color="black" position="-0.90839 2.2059 -4.90271" scale="0.8 0.8 0.8" rotation="" value=" Click the light switch\n to turn on the light bulb." font="exo2bold" text="anchor: center; value: Click the light switch\n to turn on the light bulb.; align: center"></a-text>
+
+       
+        <!--Lighting for House-->
+        <a-entity light="type: ambient; intensity:-0.1;"></a-entity>
+        <a-entity light="type: point; color: #FDF4DC; intensity: 0.5; decay: 0" decay:2;="" position="0 1.274 1.68511" castShadow:true;></a-entity>
+        
+        <!--SpotLight for Zombie-->
+        <a-entity light="type: spot; color:#a30000; intensity:1;" target:#Zombie; position="-9.74295 3.37652 -8.487"  rotation="0 270 0" penumbra: 1; angle:10;></a-entity>
+        <a-entity gltf-model="#MonaLisa" position="-4.83056 1.48886 2.431" scale="0.2 0.2 0.2" rotation="0 90 0" shadow="cast: true"></a-entity> 
+        <a-entity gltf-model="#Couch" position="-2.509 0.64492 0.37779" scale=".01 .01 .01" rotation="0 360 0" shadow="cast: true"></a-entity>
+        <a-entity gltf-model="#TVStand" position="-3.02176 0.05076 4.47704" scale="1.3 1.3 1.3" rotation="0 90 0" shadow="cast: true"></a-entity>
+        <a-entity gltf-model="#TV" position="-2.986 0.90897 4.190" scale= "1.7 1.7 1.7" rotation="0 180 0" shadow="cast: true"></a-entity>
+        <a-entity gltf-model="#Rug" position="-2.59417 0.00827 2.57161" scale= ".02 .02 .02" shadow="cast: true"></a-entity>
+        <a-entity gltf-model="#DiningTable" position="3.13913 0.1003 2.9248" scale= "0.0011 0.0012 0.0011" shadow="cast: true"></a-entity>
+        <a-entity gltf-model="#Chandelier" position="0.00231 1.83237 2.1639" scale=".02 .02 .02" shadow="cast: true"></a-entity>
+        <a-entity gltf-model="#Bed" position="3.95181 -0.006 -2.98989" rotation="0 270 0" scale="1.4 1.4 1.4" shadow="cast: true" ></a-entity>
+        <a-entity gltf-model="#Wardrobe" position="1.585 0.16647 -1.992" rotation="0 180 0" scale= "0.4 0.4 0.4" shadow="cast: true"></a-entity>
+        <a-entity gltf-model="#Chandelier" position="2.353 1.83237 -2.98989" scale=".02 .02 .02" shadow="cast: true"></a-entity>
+        <a-entity gltf-model="#FirePlace" id="Haunted" position="1.77404 0.61755 -4.26173" rotation="0 0 0" scale="0.009 0.009 0.007" shadow="cast: true" sound="src: #HauntedHouseMusic; autoplay:true" play></a-entity>
+        <a-entity gltf-model="#Radio" id="Radioo" position="1.78799 1.645 -4.69605" scale=".003 .003 .003" shadow="cast: true" sound="src: #HauntedHouseMusic" stop></a-entity>
+        <a-entity gltf-model="#BathTub" position="-3.012 0 -1.454" scale="0.3 0.3 0.3" rotation="0 180 0" shadow="cast: true"></a-entity>
+        <a-entity gltf-model="#Sink" position="-2.47127 -0.02627 -4.291" scale="1.4 1.4 1.4" shadow="cast: true"></a-entity>
+        <a-entity gltf-model="#Toilet" position="-3.29782 0.04755 -2.69814" scale="0.015 0.015 0.015" shadow="cast: true"></a-entity>
+        <a-entity gltf-model="#LightBulb" position="-2.32847 1.98093 -3.3673" scale="0.015 0.015 0.015" shadow="cast: true"></a-entity>
+        <a-entity gltf-model="#LightSwitch" position="-0.95225 1.61951 -4.90271" scale="0.005 0.005 0.005" shadow="cast: true" sound="src:#ZombieSound; on:click"></a-entity>
+        <a-entity gltf-model="#Zombie" id="Zombieface" position="-0.51249 -0.00903 -0.93494" scale="1.5 1.5 1.5" rotation="0 180 0" shadow="cast: true" reload></a-entity>
+        <a-entity gltf-model="#RoofNew" position="0.01888 3.239 -0.09277" rotation="0 180 0" scale="0.035 0.02 0.021"></a-entity>
+  
+       
     
-    <script src="js/script.js"></script> 
+
+    
+    
+    
+    
+
+
+
+        
+        
+    
+
+        
+        
+        
+     
+       
+        
+   
+        
+
+        
+        
+        
+        
+        
+        <!--Position an entity to house the camera-->
+		<!--kinematic-body is not compatible with "acceleration"-->
+		<a-entity position="0 0.5 10" rotation="0 0 0"  universal-controls kinematic-body>
+            <!-- Camera Cursor-->
+             <a-camera camera="userHeight: 1.6" shadow="cast: true"><a-cursor></a-cursor></a-camera> 
+			<!--Define a raycaster to track the position of the mouse (i.e. where the user is looking-->
+			<a-entity raycaster="far: 150; objects: .clickable" cursor geometry="primitive: ring; radiusOuter: 0.015;
+							  radiusInner: 0.01; segmentsTheta: 32" material="color: #283644; shader: flat" position="0 0 -0.75" ></a-entity>
+		</a-entity>
+        
+
+        <!--
+        <a-entity obj-model="obj: #apartmentObj; mtl: #apartmentMtl" position="15 0 0" shadow="cast:true;" scale="0.01 0.01 0.01;"></a-entity> 
+        <a-entity gltf-model="#Door3D" position="15 0 0"></a-entity>
+        -->
+
+    
+    <!--Begin building the scene of home-->
+		<a-entity scale=".2. .2 .2">
+			<!-- Floor and ceiling-->
+            <a-plane src="#FloorMtl" normal-map="#FloorMtl_NRM" rotation="-90 0 0" repeat="5 5" normal-texture-repeat="5 5" height="50" width="50" position="0 .01 0" shadow="receive:true"></a-plane>
+            <a-plane material="src: #CeilingMtl; side: double; repeat: 5 5" height="50" width="50" position="0 13 0" rotation="-90 0 0" shadow="receive:true"></a-plane>
+            
+            <!--Walls that make up the perimeter of the house and cannot be walked through-->
+            <a-box material="src: #WallMtl; side: double;" width="6" height="15" depth="1" position="-15.0 5.954 24.8" scale="3.3 .928 .497"></a-box>
+            <a-box material="src: #WallMtl; side: double;" width="6" height="15" depth="1" position="15.0 5.954 24.8" scale="3.3 .928 .497"></a-box>
+            <a-box material="src: #WallMtl; side: double;" width="6" height="15" depth="1" position="15.0 5.954 24.8" scale="3.3 .928 .497"></a-box>
+            <a-box material="src: #WallMtl; side: double;" width="15" height="15" depth="1" position=".255 5.954 -24.8" scale="3.3 .928 .497"></a-box>
+			<a-box material="src: #WallMtl; side: double;" width="15" height="15" depth="1" position="-24.7 5.896 -0.21" rotation="0 90 0" scale="3.3 .928 .497"></a-box>
+            <a-box material="src: #WallMtl; side: double;" width="15" height="15" depth="1" position="24.7 5.896 0.21" rotation="0 90 0" scale="3.3 .928 .497"></a-box>
+      <!--FrontDoor-->
+      <a-box id="FrontDoor" onclick="setFrontDoorPosition()" sound="src:#DoorCreek; on:click" volume:6; material="src: #DoorMtl; side: single;" width="3.2" height="15" depth="1" position="0.0462 6.00699 24.8" scale="3.3 0.928 0.497" ></a-box>
+
+     
+            <!--Function that is called when Front Door below is clicked-->
+     <script>
+        function setFrontDoorPosition(){
+            var FrontDoor = document.querySelector('#FrontDoor'); 
+            if(isfrontdoorClosed){
+                FrontDoor.setAttribute('position', frontdoor_opened_position); 
+                isfrontdoorOpened = true; 
+                isfrontdoorClosed = false;
+            }
+            else if(isfrontdoorOpened){
+                FrontDoor.setAttribute('position', frontdoor_closed_position);
+                isfrontdoorOpened = false;
+                isfrontdoorClosed = true;
+            }
+        }
+    </script>
+    
+    <!--BedroomDoor-->
+    <a-box id="BedroomDoor" onclick="setBedroomDoorPosition()" sound="src:#DoorCreek; on:click" volume:6; material="src: #DoorMtl2; side: single;" width="3" height="15" depth="1" position="19.9 5.954 -1.9607" scale="3.3 0.928 0.497"  static-body></a-box>
+
+      
+<!--Function that is called when BedroomDoor below is clicked-->
+     <script>
+        function setBedroomDoorPosition(){
+            console.log("Hi there");
+            var BedroomDoor = document.querySelector('#BedroomDoor');
+            if(isbedroomdoorClosed){
+                BedroomDoor.setAttribute('position', bedroomdoor_opened_position);
+                isbedroomdoorOpened = true;
+                isbedroomdoorClosed = false;
+            }
+            else if(isbedroomdoorOpened){
+                BedroomDoor.setAttribute('position', bedroomdoor_closed_position);
+                isbedroomdoorOpened = false;
+                isbedroomdoorClosed = true;
+            }
+        }
+
+    </script>
+
+    <!--Bathroom Door-->
+    <a-box id="BathroomDoor" onclick="setBathroomDoorPosition()" sound="src:#DoorCreek; on:click" volume:6; material="src: #DoorMtl2; side: single;" width="3" height="15" depth="1" position="-0.164 5.966 -19.500" rotation="0 90 0"scale="3.3 0.928 0.497"  static-body></a-box>
+
+<!--Function that is called when BathroomDoor below is clicked-->
+    <script>
+        function setBathroomDoorPosition(){
+            console.log("Hi there");
+            var BathroomDoor = document.querySelector('#BathroomDoor');
+            if(isbathroomdoorClosed){
+                BathroomDoor.setAttribute('position', bathroomdoor_opened_position);
+                isbathroomdoorOpened = true;
+                isbathroomdoorClosed = false;
+            }
+            else if(isbathroomdoorOpened){
+                BathroomDoor.setAttribute('position', bathroomdoor_closed_position);
+                isbathroomdoorOpened = false;
+                isbathroomdoorClosed = true;
+            }
+        }
+
+    </script>
+
+
+    
+            <!--Walls that make up the inner area of the house-->
+            <!--Bedroom-->
+			<a-box material="src: #WallMtl; side: double;" width="5" height="15" depth="1" position="7.82669 5.954 -1.9607" rotation="0 0 0" scale="3.3 .928 .497" static-body></a-box>
+			<a-box material="src: #WallMtl; side: double;" width="5" height="15" depth="1" position="-0.164  5.966 -8.340 " rotation="0 90 0" scale="2.516 .928 .497" static-body></a-box>
+			<!--Bedroom-->
+            <a-box material="src: #WallMtl; side: double;" width="7.5" height="15" depth="1" position="-12.542 5.954 -1.9607 " rotation="0 0 0" scale="3.3 .928 .497" static-body></a-box>
+			
+		</a-entity>
+ 
+        <!--Windows-->
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" position="-1.91335 1.86863 5.01705"></a-box>
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" position="1.91335 1.86863 5.01705"></a-box> 
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" position="4.00026 1.85507 5.01705"></a-box>
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" position="-4.00026 1.85507 5.01705"></a-box>
+
+        <!-- Back Windows-->
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" position="-1.91335 1.86863 -5.01705"></a-box>
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" position="1.91335 1.86863 -5.01705"></a-box> 
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" position="4.00026 1.85507 -5.01705"></a-box>
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" position="-4.00026 1.85507 -5.01705"></a-box>
+
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" position="-4.00026 0.559 -5.01705"></a-box>
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" position="-1.91335 0.559 -5.01705"></a-box>
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" position="1.91335 0.559 -5.01705"></a-box> 
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" position="4.00026 0.559 -5.01705"></a-box>
+        
+
+        <!--Bottom Windows-->
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" position="-4.00026 0.559 5.01705"></a-box>
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" position="-1.91335 0.559 5.01705"></a-box>
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" position="1.91335 0.559 5.01705"></a-box> 
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" position="4.00026 0.559 5.01705"></a-box>
+        
+
+        <!--Left Side Windows-->
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" rotation="0 90 0" position="-5.00059 1.85579 4.06338"></a-box>
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" rotation="0 90 0" position="-5.00059 1.85579 1.64996"></a-box>
+
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" rotation="0 90 0" position="-5.00059 0.559 4.06338"></a-box>
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" rotation="0 90 0" position="-5.00059 0.559 1.64996"></a-box>
+
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" rotation="0 90 0" position="-5.00059 1.85579 -4.06338"></a-box>
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" rotation="0 90 0" position="-5.00059 1.85579 -1.64996"></a-box>
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" rotation="0 90 0" position="-5.00059 0.559 -4.06338"></a-box>
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" rotation="0 90 0" position="-5.00059 0.559 -1.64996"></a-box>
+
+        
+    
+        
+        <!--Right Side  Windows-->
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" rotation="0 90 0" position="5.00059 1.85579 4.06338"></a-box>
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" rotation="0 90 0" position="5.00059 0.559 4.06338"></a-box>
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" rotation="0 90 0" position="5.00059 1.85579 -4.06338"></a-box>
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" rotation="0 90 0" position="5.00059 0.559 -4.06338"></a-box>
+
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" rotation="0 90 0" position="5.00059 1.85579 1.64996"></a-box>
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" rotation="0 90 0" position="5.00059 0.559 1.64996"></a-box>	
+        <a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" rotation="0 90 0" position="5.00059 1.85579 -1.64996"></a-box>
+		<a-box material="src: #HauntedMtl; side:double;" height="1.2" width="1.2" depth="0" rotation="0 90 0" position="5.00059 0.559 -1.64996"></a-box>
+     </a-scene>
+    
+    
 </body>
 
 </html>
